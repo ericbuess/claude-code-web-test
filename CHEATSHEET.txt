@@ -1,0 +1,160 @@
+═══════════════════════════════════════════════════════════════════════════
+                    SNAKE GAME TESTING - COMMAND CHEATSHEET
+═══════════════════════════════════════════════════════════════════════════
+
+QUICK START (Copy-Paste Ready)
+───────────────────────────────────────────────────────────────────────────
+
+# Start server and test in one command:
+cd /home/user/claude-code-web-test && python3 -m http.server 8000 --bind 0.0.0.0 &
+sleep 2 && node test_game_logic.js && node test_adversarial.js
+
+
+WEB SERVERS
+───────────────────────────────────────────────────────────────────────────
+
+Python (Simple):
+  python3 -m http.server 8000 --bind 0.0.0.0
+
+Node.js (Full featured):
+  http-server -p 8080 -a 0.0.0.0 --cors
+
+Custom Python:
+  python3 server_simple.py
+
+
+TESTING COMMANDS
+───────────────────────────────────────────────────────────────────────────
+
+All Tests:
+  bash run_all_tests.sh
+
+Unit Tests:
+  node test_game_logic.js
+
+Edge Cases:
+  node test_adversarial.js
+
+HTTP Check:
+  bash test_curl.sh
+
+Quick Verify:
+  curl http://localhost:8000/snake.html | head -10
+
+
+ACCESS URLs
+───────────────────────────────────────────────────────────────────────────
+
+Python server:     http://localhost:8000/snake.html
+Node http-server:  http://localhost:8080/snake.html
+External access:   http://<YOUR_IP>:8000/snake.html
+
+
+PORT REFERENCE
+───────────────────────────────────────────────────────────────────────────
+
+8000  - Python default
+8080  - http-server default
+9999  - Alternative port
+3000  - serve default
+
+
+DOCUMENTATION FILES
+───────────────────────────────────────────────────────────────────────────
+
+INVESTIGATION_REPORT.md  - Full investigation (read this first)
+QUICK_REFERENCE.md       - Command reference with examples
+FINAL_SUMMARY.txt        - Executive summary and findings
+CHEATSHEET.txt           - This file (quick commands)
+
+
+ONE-LINERS
+───────────────────────────────────────────────────────────────────────────
+
+# Start server in background:
+python3 -m http.server 8000 &
+
+# Test and kill server:
+python3 -m http.server 8000 & sleep 2; curl localhost:8000/snake.html; pkill -f http.server
+
+# Quick test everything:
+bash run_all_tests.sh
+
+# Test specific function:
+node -e "let s=[{x:10,y:10}]; let h={x:11,y:10}; console.log('Move:', h)"
+
+
+BROWSER AUTOMATION (Limited - No Browser Available)
+───────────────────────────────────────────────────────────────────────────
+
+Selenium (needs Chrome):
+  python3 test_selenium.py
+
+Playwright (needs browser):
+  python3 test_playwright.py
+
+Status: Libraries installed, but browser binaries not available
+
+
+WHAT WORKS / WHAT DOESN'T
+───────────────────────────────────────────────────────────────────────────
+
+✓ WORKS:
+  - Python http.server
+  - Node.js http-server
+  - Game logic testing
+  - Adversarial testing
+  - HTTP verification
+
+✗ DOESN'T WORK:
+  - Browser screenshots
+  - Selenium/Playwright automation
+  - Visual testing
+
+
+TROUBLESHOOTING
+───────────────────────────────────────────────────────────────────────────
+
+Port already in use:
+  pkill -f http.server
+
+Server won't start:
+  lsof -i :8000
+
+Tests fail:
+  # Make sure you're in the right directory
+  cd /home/user/claude-code-web-test
+
+Can't access externally:
+  # Use 0.0.0.0 not 127.0.0.1
+  python3 -m http.server 8000 --bind 0.0.0.0
+
+
+INSTALLED PACKAGES
+───────────────────────────────────────────────────────────────────────────
+
+Python:
+  ✓ selenium 4.37.0
+  ✓ playwright 1.55.0
+  ✓ requests 2.32.5
+
+Node.js:
+  ✓ http-server 14.1.1
+  ✓ serve 14.2.5
+  ✓ chromedriver 141.0.7390.78 (no browser)
+
+
+QUICK TEST SEQUENCE
+───────────────────────────────────────────────────────────────────────────
+
+1. cd /home/user/claude-code-web-test
+2. python3 -m http.server 8000 &
+3. sleep 2
+4. node test_game_logic.js
+5. node test_adversarial.js
+6. curl http://localhost:8000/snake.html | head -5
+7. pkill -f http.server
+
+═══════════════════════════════════════════════════════════════════════════
+                              END OF CHEATSHEET
+═══════════════════════════════════════════════════════════════════════════

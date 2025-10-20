@@ -154,6 +154,7 @@
         <div class="controls">
             <p>🎮 Use Arrow Keys to Control</p>
             <p>⏸️ Press SPACE to Pause</p>
+            <p><button onclick="soundEnabled = !soundEnabled; this.textContent = soundEnabled ? '🔊 Sound ON' : '🔇 Sound OFF'" style="padding: 5px 15px; font-size: 0.9em;">🔊 Sound ON</button></p>
         </div>
 
         <div class="mobile-controls">
@@ -183,6 +184,37 @@
         let gameOver = false;
         let isPaused = false;
         let gameLoop;
+        let soundEnabled = true;
+
+        // Simple sound effects using Web Audio API
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(frequency, duration) {
+            if (!soundEnabled) return;
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        function playEatSound() {
+            playSound(800, 0.1);
+        }
+
+        function playGameOverSound() {
+            playSound(200, 0.3);
+            setTimeout(() => playSound(150, 0.3), 100);
+        }
 
         highScoreElement.textContent = highScore;
 
@@ -210,6 +242,7 @@
             if (head.x === food.x && head.y === food.y) {
                 score += 10;
                 scoreElement.textContent = score;
+                playEatSound();
                 spawnFood();
 
                 if (score > highScore) {
@@ -273,17 +306,24 @@
                 }
             });
 
-            // Draw food
+            // Draw food with pulsing effect
+            const pulse = Math.sin(Date.now() / 200) * 0.2 + 0.8;
             ctx.fillStyle = '#ff6b6b';
             ctx.beginPath();
             ctx.arc(
                 food.x * GRID_SIZE + GRID_SIZE / 2,
                 food.y * GRID_SIZE + GRID_SIZE / 2,
-                GRID_SIZE / 2 - 2,
+                (GRID_SIZE / 2 - 2) * pulse,
                 0,
                 Math.PI * 2
             );
             ctx.fill();
+
+            // Add glow effect
+            ctx.shadowBlur = 10 * pulse;
+            ctx.shadowColor = '#ff6b6b';
+            ctx.fill();
+            ctx.shadowBlur = 0;
         }
 
         function spawnFood() {
@@ -298,6 +338,7 @@
         function endGame() {
             gameOver = true;
             gameOverText.style.display = 'block';
+            playGameOverSound();
             clearInterval(gameLoop);
         }
 

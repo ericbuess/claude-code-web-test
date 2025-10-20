@@ -17,11 +17,14 @@ class SnakeGame:
 
         # Initialize game state
         self.reset_game()
+        self.paused = False
+        self.speed = 100  # milliseconds per frame
+        self.high_score = 0
 
         # Setup curses
         curses.curs_set(0)  # Hide cursor
         stdscr.nodelay(1)   # Non-blocking input
-        stdscr.timeout(100) # Refresh rate
+        stdscr.timeout(self.speed) # Refresh rate
 
     def reset_game(self):
         # Snake starts in the middle
@@ -50,6 +53,19 @@ class SnakeGame:
         if key == ord('q'):
             return False
 
+        # Pause/unpause
+        if key == ord('p') or key == ord(' '):
+            self.paused = not self.paused
+            return True
+
+        # Speed controls
+        if key == ord('+') or key == ord('='):
+            self.speed = max(50, self.speed - 20)
+            self.stdscr.timeout(self.speed)
+        elif key == ord('-') or key == ord('_'):
+            self.speed = min(300, self.speed + 20)
+            self.stdscr.timeout(self.speed)
+
         # Prevent reversing direction
         if key == curses.KEY_UP and self.direction != curses.KEY_DOWN:
             self.direction = key
@@ -64,7 +80,7 @@ class SnakeGame:
 
     def update(self):
         """Update game state"""
-        if self.game_over:
+        if self.game_over or self.paused:
             return
 
         # Get current head position
@@ -97,6 +113,8 @@ class SnakeGame:
         # Check if food eaten
         if new_head == self.food:
             self.score += 10
+            if self.score > self.high_score:
+                self.high_score = self.score
             self.spawn_food()
         else:
             # Remove tail if no food eaten
@@ -124,9 +142,16 @@ class SnakeGame:
         # Draw food
         self.stdscr.addstr(self.food[0], self.food[1], '*')
 
-        # Draw score
-        score_text = f'Score: {self.score} | Press q to quit'
-        self.stdscr.addstr(self.height, 0, score_text)
+        # Draw score and controls
+        score_text = f'Score: {self.score} | High: {self.high_score} | Speed: {self.speed}ms | [p]ause [+/-]speed [q]uit'
+        self.stdscr.addstr(self.height, 0, score_text[:self.width-1])
+
+        # Draw pause message
+        if self.paused:
+            msg = '⏸ PAUSED - Press p or space to continue'
+            y = self.height // 2
+            x = max(0, (self.width - len(msg)) // 2)
+            self.stdscr.addstr(y, x, msg, curses.A_BOLD)
 
         # Draw game over message
         if self.game_over:

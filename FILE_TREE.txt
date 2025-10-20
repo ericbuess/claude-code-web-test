@@ -1,0 +1,36 @@
+/home/user/claude-code-web-test/
+│
+├── DOCUMENTATION (26K total)
+│   ├── INVESTIGATION_REPORT.md     (9.2K)  - Full investigation details
+│   ├── QUICK_REFERENCE.md          (3.3K)  - Quick command reference
+│   ├── FINAL_SUMMARY.txt           (9.8K)  - Executive summary
+│   ├── README_NETWORK_EXPLORATION.md (6.0K) - Previous network docs
+│   ├── NETWORK_EXPLORATION_REPORT.md (8.8K) - Previous network report
+│   └── FILE_TREE.txt               (this)  - File structure
+│
+├── GAME
+│   └── snake.html                  (12K)   - The Snake game
+│
+├── TEST SCRIPTS (19.5K total)
+│   ├── test_game_logic.js          (2.6K)  - Unit tests (WORKING)
+│   ├── test_adversarial.js         (6.2K)  - Edge case tests (WORKING)
+│   ├── test_automated.js           (2.3K)  - Automation example
+│   ├── test_curl.sh                (1.8K)  - HTTP tests (WORKING)
+│   └── run_all_tests.sh            (3.9K)  - Complete test suite (WORKING)
+│
+├── SERVER SCRIPTS (1.5K total)
+│   ├── server_simple.py            (680B)  - Python HTTP server
+│   └── QUICK_START_WEB_SERVER.sh   (845B)  - Quick server start
+│
+├── EXAMPLE CODE (1.7K total)
+│   ├── test_selenium.py            (947B)  - Selenium example*
+│   └── test_playwright.py          (715B)  - Playwright example*
+│
+└── PYTHON GAME
+    └── snake.py                    (4.6K)  - Python terminal Snake
+
+* Requires browser binaries (not available in current environment)
+
+TOTAL FILES: 17
+TOTAL SIZE: ~63K
+STATUS: All working files tested and verified
