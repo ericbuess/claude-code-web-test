@@ -1,0 +1,33 @@
+# Python Development Server Dependencies
+# =======================================
+# Install all with: pip3 install -r requirements-dev.txt
+
+# Flask - Web framework
+flask>=2.3.0
+
+# Flask-CORS - Cross-Origin Resource Sharing
+flask-cors>=4.0.0
+
+# LiveReload - Auto-reload for Flask
+livereload>=2.6.3
+
+# Watchdog - File system monitoring
+watchdog>=3.0.0
+
+# FastAPI - Modern web framework
+fastapi>=0.104.0
+
+# Uvicorn - ASGI server for FastAPI
+uvicorn[standard]>=0.24.0
+
+# Optional: Better colored terminal output
+colorama>=0.4.6
+
+# Optional: Testing frameworks
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Optional: Code quality tools
+black>=23.10.0
+flake8>=6.1.0
+mypy>=1.6.0
